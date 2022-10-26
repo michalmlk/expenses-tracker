@@ -2,19 +2,19 @@ import React, { useRef } from 'react'
 import { Form, Modal, Button } from 'react-bootstrap'
 import { useBudgets } from '../../../hooks/useBudgets'
 
-const AddBudgetModal = ({ show, handleCloseModal }) => {
+const AddExpenseModal = ({ show, handleCloseModal }) => {
 	const nameRef = useRef()
-	const limitRef = useRef()
+	const amountRef = useRef()
 	const { addBudget } = useBudgets()
 
 	const handleSubmit = e => {
 		e.preventDefault()
 		addBudget({
 			name: nameRef.current.value,
-			limit: parseFloat(limitRef.current.value),
+			limit: parseFloat(amountRef.current.value),
 		})
 		nameRef.current.value = ''
-		limitRef.current.value = '' 
+		amountRef.current.value = ''
 		handleCloseModal()
 	}
 
@@ -22,7 +22,7 @@ const AddBudgetModal = ({ show, handleCloseModal }) => {
 		<Modal show={show} onHide={handleCloseModal}>
 			<Form onSubmit={handleSubmit}>
 				<Modal.Header>
-					<Modal.Title>New budget</Modal.Title>
+					<Modal.Title>New expense</Modal.Title>
 				</Modal.Header>
 				<Modal.Body>
 					<Form.Group controlId='name'>
@@ -31,12 +31,12 @@ const AddBudgetModal = ({ show, handleCloseModal }) => {
 					</Form.Group>
 
 					<Form.Group controlId='limit'>
-						<Form.Label className='mb-3'>Maximum limit</Form.Label>
-						<Form.Control type='number' required ref={limitRef} min={0} step={0.01} />
+						<Form.Label className='mb-3'>Amount</Form.Label>
+						<Form.Control type='number' required ref={amountRef} />
 					</Form.Group>
 					<div className='d-flex justify-content-end'>
 						<Button variant='primary' type='submit' className='mt-3'>
-							Add budget
+							Add
 						</Button>
 					</div>
 				</Modal.Body>
@@ -44,4 +44,4 @@ const AddBudgetModal = ({ show, handleCloseModal }) => {
 		</Modal>
 	)
 }
-export default AddBudgetModal
+export default AddExpenseModal

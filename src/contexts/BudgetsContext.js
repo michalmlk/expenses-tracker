@@ -26,12 +26,12 @@ export const BudgetsProvider = ({ children }) => {
 		})
 	}
 
-	const addBudget = ({ name, max }) => {
+	const addBudget = ({ name, limit }) => {
 		setBudgets(prevBudgets => {
-			if (prevBudgets.find(prevBudget => prevBudget.name === name)) {
+			if (prevBudgets.some(prevBudget => prevBudget.name === name)) {
 				return prevBudgets
 			}
-			return [{ id: uuidV4(), name, max }, ...prevBudgets]
+			return [{ id: uuidV4(), name, limit }, ...prevBudgets]
 		})
 	}
 	const deleteBudget = ({ id }) => {
