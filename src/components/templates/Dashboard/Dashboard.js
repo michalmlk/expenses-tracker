@@ -5,17 +5,20 @@ import BudgetCard from '../../organisms/BudgetCard/BudgetCard'
 import AddBudgetModal from '../../molecules/AddBudgetModal/AddBudgetModal'
 import AddExpenseModal from '../../molecules/AddExpenseModal/AddExpenseModal'
 import { useBudgets } from '../../../hooks/useBudgets'
+import UncategorizedBudgetCard from '../../molecules/UncategorizedBudgetCard/UncategorizedBudgetCard'
+import TotalBudgetCard from '../../molecules/TotalBudgetCard/TotalBudgetCard'
 
 const Dashboard = () => {
 	const [isBudgetModalVisible, setIsBudgetModalVisible] = useState(false)
 	const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false)
-
-	const showBudgetModalHandler = () => setIsBudgetModalVisible(true)
-	const showExpenseModalHandler = () => setIsExpenseModalVisible(true)
-	const closeBudgetModalHandler = () => setIsBudgetModalVisible(false)
-	const closeExpenseModalHandler = () => setIsExpenseModalVisible(false)
-
+	const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState()
 	const { budgets, getBudgetExpenses } = useBudgets()
+
+	const showBudgetModalHandler = () => setIsBudgetModalVisible(prevState => !prevState)
+	const showExpenseModalHandler = budgetId => {
+		setAddExpenseModalBudgetId(budgetId)
+		setIsExpenseModalVisible(prevState => !prevState)
+	}
 
 	return (
 		<>
@@ -32,12 +35,22 @@ const Dashboard = () => {
 				<CategoriesWrapper>
 					{budgets.map(budget => {
 						const amount = getBudgetExpenses(budget.id).reduce((total, expense) => total + expense.amount, 0)
-						return <BudgetCard key={budget.id} title={budget.name} amount={amount} limit={budget.limit} />
+						return (
+							<BudgetCard
+								key={budget.id}
+								title={budget.name}
+								amount={amount}
+								limit={budget.limit}
+								onAddExpense={() => showExpenseModalHandler(budget.id)}
+							/>
+						)
 					})}
+					<UncategorizedBudgetCard />
+					<TotalBudgetCard />
 				</CategoriesWrapper>
 			</Container>
-			<AddBudgetModal show={isBudgetModalVisible} handleCloseModal={closeBudgetModalHandler} />
-			<AddExpenseModal show={isExpenseModalVisible} handleCloseModal={closeExpenseModalHandler} />
+			<AddBudgetModal show={isBudgetModalVisible} handleCloseModal={showBudgetModalHandler} />
+			<AddExpenseModal defaultBudgetId={addExpenseModalBudgetId} show={isExpenseModalVisible} handleCloseModal={showExpenseModalHandler} />
 		</>
 	)
 }

@@ -12,6 +12,8 @@ export const BudgetsContext = createContext({
 	deleteExpense: () => {},
 })
 
+export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
+
 export const BudgetsProvider = ({ children }) => {
 	const [budgets, setBudgets] = useLocalStorage('budgets', [])
 	const [expenses, setExpenses] = useLocalStorage('expenses', [])
