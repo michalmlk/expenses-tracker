@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { Form, Modal, Button } from 'react-bootstrap'
-import { useBudgets } from '../../../hooks/useBudgets'
+import { useBudgets } from '../../../contexts/BudgetsContext'
 
 const AddBudgetModal = ({ show, handleCloseModal }) => {
 	const nameRef = useRef()
@@ -14,7 +14,7 @@ const AddBudgetModal = ({ show, handleCloseModal }) => {
 			limit: parseFloat(limitRef.current.value),
 		})
 		nameRef.current.value = ''
-		limitRef.current.value = '' 
+		limitRef.current.value = ''
 		handleCloseModal()
 	}
 

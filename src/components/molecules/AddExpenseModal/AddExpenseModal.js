@@ -1,7 +1,6 @@
 import React, { useRef } from 'react'
 import { Form, Modal, Button } from 'react-bootstrap'
-import { useBudgets } from '../../../hooks/useBudgets'
-import { UNCATEGORIZED_BUDGET_ID } from '../../../contexts/BudgetsContext'
+import { UNCATEGORIZED_BUDGET_ID, useBudgets } from '../../../contexts/BudgetsContext'
 
 const AddExpenseModal = ({ show, handleCloseModal, defaultBudgetId }) => {
 	const descriptionRef = useRef()

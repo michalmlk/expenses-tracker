@@ -4,7 +4,7 @@ import { CategoriesWrapper } from '../../atoms/CategoriesWrapper/CategoriesWrapp
 import BudgetCard from '../../organisms/BudgetCard/BudgetCard'
 import AddBudgetModal from '../../molecules/AddBudgetModal/AddBudgetModal'
 import AddExpenseModal from '../../molecules/AddExpenseModal/AddExpenseModal'
-import { useBudgets } from '../../../hooks/useBudgets'
+import { useBudgets } from '../../../contexts/BudgetsContext'
 import UncategorizedBudgetCard from '../../molecules/UncategorizedBudgetCard/UncategorizedBudgetCard'
 import TotalBudgetCard from '../../molecules/TotalBudgetCard/TotalBudgetCard'
 

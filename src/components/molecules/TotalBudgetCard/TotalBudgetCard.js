@@ -1,13 +1,11 @@
-import React from 'react'
-import { useBudgets } from '../../../hooks/useBudgets'
+import { useBudgets } from '../../../contexts/BudgetsContext'
 import BudgetCard from '../../organisms/BudgetCard/BudgetCard'
 
-const TotalBudgetCard = () => {
+export default function TotalBudgetCard() {
 	const { expenses, budgets } = useBudgets()
-	const amount = expenses.reduce((total, expense) => total + expense.amount)
-	const limit = budgets.reduce((total, budget) => total + budget.limit)
+	const amount = expenses.reduce((total, expense) => total + expense.amount, 0)
+	const limit = budgets.reduce((total, budget) => total + budget.limit, 0)
+	if (limit === 0) return null
 
-	return limit !== 0 ? <BudgetCard gray title='Total' amount={amount} limit={limit} /> : null
+	return <BudgetCard amount={amount} title='Total' gray limit={limit} hideButtons />
 }
-
-export default TotalBudgetCard

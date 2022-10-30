@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import useLocalStorage from '../hooks/useLocalStorage'
 
@@ -11,6 +11,10 @@ export const BudgetsContext = createContext({
 	deleteBudget: () => {},
 	deleteExpense: () => {},
 })
+
+export const useBudgets = () => {
+	return useContext(BudgetsContext)
+}
 
 export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
 

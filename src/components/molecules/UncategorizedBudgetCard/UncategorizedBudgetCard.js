@@ -1,7 +1,7 @@
 import React from 'react'
 import BudgetCard from '../../organisms/BudgetCard/BudgetCard'
 import { UNCATEGORIZED_BUDGET_ID } from '../../../contexts/BudgetsContext'
-import { useBudgets } from '../../../hooks/useBudgets'
+import { useBudgets } from '../../../contexts/BudgetsContext'
 
 const UncategorizedBudgetCard = props => {
 	const { getBudgetExpenses } = useBudgets()
