@@ -1,4 +1,4 @@
-import React, { createContext } from 'react'
+import React, { createContext, useContext } from 'react'
 import { v4 as uuidV4 } from 'uuid'
 import useLocalStorage from '../hooks/useLocalStorage'
 
@@ -11,6 +11,12 @@ export const BudgetsContext = createContext({
 	deleteBudget: () => {},
 	deleteExpense: () => {},
 })
+
+export const useBudgets = () => {
+	return useContext(BudgetsContext)
+}
+
+export const UNCATEGORIZED_BUDGET_ID = 'Uncategorized'
 
 export const BudgetsProvider = ({ children }) => {
 	const [budgets, setBudgets] = useLocalStorage('budgets', [])
@@ -26,15 +32,21 @@ export const BudgetsProvider = ({ children }) => {
 		})
 	}
 
-	const addBudget = ({ name, max }) => {
+	const addBudget = ({ name, limit }) => {
 		setBudgets(prevBudgets => {
-			if (prevBudgets.find(prevBudget => prevBudget.name === name)) {
+			if (prevBudgets.some(prevBudget => prevBudget.name === name)) {
 				return prevBudgets
 			}
-			return [{ id: uuidV4(), name, max }, ...prevBudgets]
+			return [{ id: uuidV4(), name, limit }, ...prevBudgets]
 		})
 	}
 	const deleteBudget = ({ id }) => {
+		setExpenses(prevExpenses => {
+			return prevExpenses.map(expense => {
+				if (expense.budgetId !== id) return expense
+				return { ...expense, budgetId: UNCATEGORIZED_BUDGET_ID }
+			})
+		})
 		const updatedBudgets = budgets.filter(budget => budget.id !== id)
 		setBudgets(updatedBudgets)
 	}
