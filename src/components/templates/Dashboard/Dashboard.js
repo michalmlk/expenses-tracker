@@ -4,7 +4,8 @@ import { CategoriesWrapper } from '../../atoms/CategoriesWrapper/CategoriesWrapp
 import BudgetCard from '../../organisms/BudgetCard/BudgetCard'
 import AddBudgetModal from '../../molecules/AddBudgetModal/AddBudgetModal'
 import AddExpenseModal from '../../molecules/AddExpenseModal/AddExpenseModal'
-import { useBudgets } from '../../../contexts/BudgetsContext'
+import ViewExpensesModal from '../../molecules/ViewExpensesModal/ViewExpensesModal'
+import { UNCATEGORIZED_BUDGET_ID, useBudgets } from '../../../contexts/BudgetsContext'
 import UncategorizedBudgetCard from '../../molecules/UncategorizedBudgetCard/UncategorizedBudgetCard'
 import TotalBudgetCard from '../../molecules/TotalBudgetCard/TotalBudgetCard'
 
@@ -12,6 +13,7 @@ const Dashboard = () => {
 	const [isBudgetModalVisible, setIsBudgetModalVisible] = useState(false)
 	const [isExpenseModalVisible, setIsExpenseModalVisible] = useState(false)
 	const [addExpenseModalBudgetId, setAddExpenseModalBudgetId] = useState()
+	const [viewExpensesModalBudgetId, setViewExpensesModalBudgetId] = useState()
 	const { budgets, getBudgetExpenses } = useBudgets()
 
 	const showBudgetModalHandler = () => setIsBudgetModalVisible(prevState => !prevState)
@@ -42,15 +44,20 @@ const Dashboard = () => {
 								amount={amount}
 								limit={budget.limit}
 								onAddExpense={() => showExpenseModalHandler(budget.id)}
+								onViewExpenses={() => setViewExpensesModalBudgetId(budget.id)}
 							/>
 						)
 					})}
-					<UncategorizedBudgetCard />
+					<UncategorizedBudgetCard
+						onAddExpense={showExpenseModalHandler}
+						onViewExpenses={() => setViewExpensesModalBudgetId(UNCATEGORIZED_BUDGET_ID)}
+					/>
 					<TotalBudgetCard />
 				</CategoriesWrapper>
 			</Container>
 			<AddBudgetModal show={isBudgetModalVisible} handleCloseModal={showBudgetModalHandler} />
 			<AddExpenseModal defaultBudgetId={addExpenseModalBudgetId} show={isExpenseModalVisible} handleCloseModal={showExpenseModalHandler} />
+			<ViewExpensesModal budgetId={viewExpensesModalBudgetId} handleCloseModal={() => setViewExpensesModalBudgetId()} />
 		</>
 	)
 }
